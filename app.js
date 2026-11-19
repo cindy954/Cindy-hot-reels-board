@@ -158,7 +158,7 @@
 
     if (notice) {
       var byCat = ["여행", "자취·살림", "다이어트"].map(function (c) { return c + " " + (counts[c] || 0) + "개"; }).join(" · ");
-      notice.textContent = "조회수 20만 이상만 담았습니다. 이번 주 확인된 항목은 " + byCat + "입니다.";
+      notice.textContent = "조회수 20만 이상만 담았습니다. 최근 14일(11.5~11.19) 확인된 항목은 " + byCat + "입니다.";
       notice.hidden = false;
     }
 
