@@ -6,12 +6,15 @@
   var grid = document.getElementById("grid");
   var empty = document.getElementById("empty");
   var resultLine = document.getElementById("result-line");
+  var notice = document.getElementById("notice");
   var tpl = document.getElementById("card-template");
 
   var ICON_EYE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.6"/></svg>';
+  var ICON_HEART = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-9.2A4 4 0 0 1 12 8a4 4 0 0 1 7 2.8C19 15.6 12 20 12 20z"/></svg>';
+  var ICON_TALK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.2c0 .9-.8 1.6-1.7 1.6H8l-4 3V6.4C4 5.5 4.8 4.8 5.7 4.8h12.6c.9 0 1.7.7 1.7 1.6z"/></svg>';
   var ICON_CLOCK = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>';
 
-  function formatViews(n) {
+  function formatCount(n) {
     if (typeof n !== "number" || isNaN(n)) return "—";
     if (n >= 100000000) return (n / 100000000).toFixed(1).replace(/\.0$/, "") + "억";
     if (n >= 10000) return (n / 10000).toFixed(1).replace(/\.0$/, "") + "만";
@@ -22,16 +25,15 @@
     if (!sec && sec !== 0) return "";
     if (sec >= 60) {
       var m = Math.floor(sec / 60);
-      var s = sec % 60;
-      return m + "분 " + (s ? s + "초" : "");
+      var s = Math.round(sec % 60);
+      return m + "분" + (s ? " " + s + "초" : "");
     }
     return sec + "초";
   }
 
   function relativeTime(iso) {
     var then = new Date(iso).getTime();
-    var now = Date.now();
-    var diffMin = Math.floor((now - then) / 60000);
+    var diffMin = Math.floor((Date.now() - then) / 60000);
     if (diffMin < 1) return "방금 전";
     if (diffMin < 60) return diffMin + "분 전";
     var h = Math.floor(diffMin / 60);
@@ -60,11 +62,21 @@
     return p === "instagram" ? "릴스 보러가기" : "쇼츠 보러가기";
   }
 
+  function creatorLine(item) {
+    if (item.platform === "instagram" && item.handle) {
+      var s = "@" + item.handle;
+      var name = item.creator && item.creator !== item.handle ? " · " + item.creator : "";
+      var f = item.followers ? " · 팔로워 " + formatCount(item.followers) : "";
+      return s + name + f;
+    }
+    return item.creator || "";
+  }
+
   function matches(item) {
     if (state.category !== "전체" && item.category !== state.category) return false;
     if (!state.query) return true;
     var q = state.query.toLowerCase();
-    var hay = [item.title, item.creator, item.point, item.category].join(" ").toLowerCase();
+    var hay = [item.title, item.creator, item.handle, item.point, item.category].join(" ").toLowerCase();
     return hay.indexOf(q) !== -1;
   }
 
@@ -90,16 +102,29 @@
       badge.setAttribute("data-cat", item.category);
 
       node.querySelector(".platform").textContent = platformLabel(item.platform);
+
+      var ad = node.querySelector(".ad");
+      if (item.ad) ad.hidden = false;
+
       node.querySelector(".time").textContent = relativeTime(item.publishedAt);
       node.querySelector(".time").title = stamp(item.publishedAt, true) + " 게시";
 
       node.querySelector(".title").textContent = item.title;
-      node.querySelector(".creator").textContent = item.creator;
+      node.querySelector(".creator").textContent = creatorLine(item);
 
-      var metrics = node.querySelector(".metrics");
-      metrics.innerHTML =
-        "<span>" + ICON_EYE + "조회수 " + formatViews(item.views) + "</span>" +
-        "<span>" + ICON_CLOCK + formatDuration(item.durationSec) + "</span>";
+      var parts = ["<span>" + ICON_EYE + "조회수 " + formatCount(item.views) + "</span>"];
+      if (item.likesHidden) {
+        parts.push("<span>" + ICON_HEART + "좋아요 비공개</span>");
+      } else if (typeof item.likes === "number") {
+        parts.push("<span>" + ICON_HEART + "좋아요 " + formatCount(item.likes) + "</span>");
+      }
+      if (typeof item.comments === "number") {
+        parts.push("<span>" + ICON_TALK + "댓글 " + formatCount(item.comments) + "</span>");
+      }
+      if (item.durationSec) {
+        parts.push("<span>" + ICON_CLOCK + formatDuration(item.durationSec) + "</span>");
+      }
+      node.querySelector(".metrics").innerHTML = parts.join("");
 
       node.querySelector(".point").textContent = item.point;
 
@@ -107,8 +132,9 @@
       go.href = item.url;
       go.innerHTML = linkLabel(item.platform) + ' <span aria-hidden="true">↗</span>';
 
-      node.querySelector(".checked").textContent =
-        "게시 " + stamp(item.publishedAt, true) + "\n지표 확인 " + stamp(data.verifiedAt, true);
+      var checked = "게시 " + stamp(item.publishedAt, true) + "\n지표 확인 " + stamp(data.verifiedAt, true);
+      if (item.viewSource && item.platform === "instagram") checked += " (" + item.viewSource + ")";
+      node.querySelector(".checked").textContent = checked;
 
       grid.appendChild(node);
     });
@@ -124,6 +150,19 @@
     data = payload;
     document.getElementById("updated-at").textContent = stamp(payload.generatedAt, true) + " KST";
     document.getElementById("total-count").textContent = payload.reels.length + "개";
+
+    var counts = { "전체": payload.reels.length, "여행": 0, "자취·살림": 0, "다이어트": 0 };
+    payload.reels.forEach(function (r) { counts[r.category] = (counts[r.category] || 0) + 1; });
+    [].forEach.call(document.querySelectorAll(".tab-count"), function (el) {
+      el.textContent = counts[el.dataset.count] || 0;
+    });
+
+    if (notice) {
+      var byCat = ["여행", "자취·살림", "다이어트"].map(function (c) { return c + " " + (counts[c] || 0) + "개"; }).join(" · ");
+      notice.textContent = "조회수 20만 이상만 담았습니다. 이번 주 확인된 항목은 " + byCat + "입니다.";
+      notice.hidden = false;
+    }
+
     render();
   }
 

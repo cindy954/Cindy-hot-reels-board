@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>신디의 48시간 핫 릴스 보드</title>
-  <meta name="description" content="수강생 전용 데일리 릴스 레퍼런스. 48시간 안에 뜬 한국 숏폼을 여행·자취·살림·다이어트로 모아 매일 업데이트합니다." />
+  <title>신디의 핫 릴스 보드</title>
+  <meta name="description" content="수강생 전용 데일리 릴스 레퍼런스. 최근 7일 안에 게시된 한국 숏폼 중 조회수 20만 이상만 여행·자취·살림·다이어트로 모았습니다." />
   <meta name="theme-color" content="#fdf9f6" />
-  <meta property="og:title" content="신디의 48시간 핫 릴스 보드" />
-  <meta property="og:description" content="수강생 전용 데일리 릴스 레퍼런스 · 매일 업데이트" />
+  <meta property="og:title" content="신디의 핫 릴스 보드" />
+  <meta property="og:description" content="수강생 전용 데일리 릴스 레퍼런스 · 최근 7일 · 조회수 20만 이상" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-  <link rel="stylesheet" href="styles.css?v=20261119b" />
+  <link rel="stylesheet" href="styles.css?v=20261119c" />
 </head>
 <body>
   <header class="site-header">
     <div class="wrap">
       <div class="brand">
         <p class="brand-sub">CINDY&nbsp;·&nbsp;REELS&nbsp;REFERENCE</p>
-        <h1>🔥 신디의 48시간 핫 릴스 보드</h1>
+        <h1>🔥 신디의 핫 릴스 보드</h1>
         <p class="lede">수강생 전용 데일리 릴스 레퍼런스</p>
       </div>
       <div class="meta-bar">
@@ -31,19 +31,21 @@
         </span>
         <span class="meta-item">
           <span class="meta-label">기준</span>
-          <strong>최근 48시간 게시</strong>
+          <strong>최근 7일 게시 · 조회수 20만 이상</strong>
         </span>
       </div>
     </div>
   </header>
 
   <main class="wrap" id="main">
+    <p class="notice" id="notice" hidden></p>
+
     <section class="controls" aria-label="보드 필터">
       <div class="tabs" id="tabs" role="tablist" aria-label="카테고리">
-        <button class="tab is-active" role="tab" aria-selected="true" data-cat="전체">전체</button>
-        <button class="tab" role="tab" aria-selected="false" data-cat="여행">여행</button>
-        <button class="tab" role="tab" aria-selected="false" data-cat="자취·살림">자취·살림</button>
-        <button class="tab" role="tab" aria-selected="false" data-cat="다이어트">다이어트</button>
+        <button class="tab is-active" role="tab" aria-selected="true" data-cat="전체">전체 <span class="tab-count" data-count="전체">0</span></button>
+        <button class="tab" role="tab" aria-selected="false" data-cat="여행">여행 <span class="tab-count" data-count="여행">0</span></button>
+        <button class="tab" role="tab" aria-selected="false" data-cat="자취·살림">자취·살림 <span class="tab-count" data-count="자취·살림">0</span></button>
+        <button class="tab" role="tab" aria-selected="false" data-cat="다이어트">다이어트 <span class="tab-count" data-count="다이어트">0</span></button>
       </div>
 
       <div class="controls-row">
@@ -65,12 +67,14 @@
     <p class="empty" id="empty" hidden>조건에 맞는 릴스가 없어요. 다른 키워드로 찾아보세요.</p>
 
     <section class="notes">
-      <details>
+      <details open>
         <summary>이 보드는 이렇게 만들었어요</summary>
         <div class="notes-body">
-          <p>최근 48시간 안에 게시된 한국어 숏폼 중 조회수가 높은 항목만 골라 담았습니다. 조회수와 게시 시각은 각 영상의 원본 페이지에서 직접 확인한 값이고, 카드의 '지표 확인' 시각은 마지막으로 숫자를 읽은 시점입니다.</p>
-          <p>인스타그램 릴스는 공개 목록에서 게시 시각과 조회수를 함께 확인할 수 있는 경로가 막혀 있어, 이번 보드는 유튜브 쇼츠로 채웠습니다. 릴스 링크도 같은 카드 형식으로 바로 추가할 수 있게 만들어 두었습니다.</p>
-          <p>카드에 적힌 '벤치마킹 포인트'는 원본 제목·설명·길이를 보고 정리한 분석 메모이지, 크리에이터가 밝힌 성과 요인이 아닙니다.</p>
+          <p>최근 7일(2026.11.12~11.19 KST) 안에 게시된 한국어 숏폼 가운데 <strong>조회수 20만 이상</strong>만 담았습니다. 그 아래 항목은 숫자를 채우려고 넣지 않았습니다.</p>
+          <p>인스타그램 릴스는 공개 조회수 확인 경로가 따로 없어 트래커 하입나우(hypenow) 집계값을 썼고, 카드의 '지표 확인'에 집계 시점을 적었습니다. 좋아요·댓글·게시 시각은 인스타그램 원본에서 직접 읽었습니다. 좋아요를 숨긴 계정은 '비공개'로 표시합니다.</p>
+          <p>유튜브 쇼츠는 영상 페이지에서 조회수와 게시 시각을 직접 확인했습니다.</p>
+          <p>이번 주 확인된 20만 뷰 이상 한국어 항목은 여행 1개 · 자취·살림 3개 · 다이어트 2개입니다. 인스타그램은 이 기간(11.12~11.15) 수집된 한국어 릴스 자체가 적고 20만 뷰를 넘는 항목 대부분이 뷰티라서, 세 카테고리로는 이만큼만 확인됐습니다.</p>
+          <p>카드에 적힌 '벤치마킹 포인트'는 원본 제목·캡션·길이를 보고 정리한 분석 메모이지, 크리에이터가 밝힌 성과 요인이 아닙니다.</p>
         </div>
       </details>
     </section>
@@ -88,6 +92,7 @@
       <div class="card-top">
         <span class="badge"></span>
         <span class="platform"></span>
+        <span class="ad" hidden>광고·협찬</span>
         <span class="time"></span>
       </div>
       <h2 class="title"></h2>
@@ -95,12 +100,12 @@
       <p class="metrics"></p>
       <p class="point"></p>
       <div class="card-bottom">
-        <a class="go" target="_blank" rel="noopener noreferrer">쇼츠 보러가기 <span aria-hidden="true">↗</span></a>
+        <a class="go" target="_blank" rel="noopener noreferrer">원본 보기 <span aria-hidden="true">↗</span></a>
         <span class="checked"></span>
       </div>
     </article>
   </template>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=20261119c"></script>
 </body>
 </html>
