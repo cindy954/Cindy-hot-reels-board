@@ -112,7 +112,7 @@
       node.querySelector(".title").textContent = item.title;
       node.querySelector(".creator").textContent = creatorLine(item);
 
-      var parts = ["<span>" + ICON_EYE + "조회수 " + formatCount(item.views) + "</span>"];
+      var parts = ["<span>" + ICON_EYE + "조회수 " + formatCount(item.views) + (item.platform === "instagram" ? "*" : "") + "</span>"];
       if (item.likesHidden) {
         parts.push("<span>" + ICON_HEART + "좋아요 비공개</span>");
       } else if (typeof item.likes === "number") {
@@ -133,7 +133,6 @@
       go.innerHTML = linkLabel(item.platform) + ' <span aria-hidden="true">↗</span>';
 
       var checked = "게시 " + stamp(item.publishedAt, true) + "\n지표 확인 " + stamp(data.verifiedAt, true);
-      if (item.viewSource && item.platform === "instagram") checked += " (" + item.viewSource + ")";
       node.querySelector(".checked").textContent = checked;
 
       grid.appendChild(node);
@@ -161,6 +160,12 @@
       var byCat = ["여행", "자취·살림", "다이어트"].map(function (c) { return c + " " + (counts[c] || 0) + "개"; }).join(" · ");
       notice.textContent = "조회수 20만 이상만 담았습니다. 이번 주 확인된 항목은 " + byCat + "입니다.";
       notice.hidden = false;
+    }
+
+    var footnote = document.getElementById("footnote");
+    if (footnote) {
+      var hasIg = payload.reels.some(function (r) { return r.platform === "instagram"; });
+      footnote.hidden = !hasIg;
     }
 
     render();
