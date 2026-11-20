@@ -158,7 +158,9 @@
 
     if (notice) {
       var byCat = ["여행", "자취·살림", "다이어트"].map(function (c) { return c + " " + (counts[c] || 0) + "개"; }).join(" · ");
-      notice.textContent = "조회수 20만 이상만 담았습니다. 최근 14일(11.5~11.19) 확인된 항목은 " + byCat + "입니다.";
+      var ws = new Date(payload.windowStart), we = new Date(payload.windowEnd);
+      var span = (ws.getMonth() + 1) + "." + ws.getDate() + "~" + (we.getMonth() + 1) + "." + we.getDate();
+      notice.textContent = "조회수 20만 이상만 담았습니다. 최근 14일(" + span + ") 확인된 항목은 " + byCat + "입니다.";
       notice.hidden = false;
     }
 
