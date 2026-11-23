@@ -14,6 +14,8 @@
   --living-soft: #e2f6ef;
   --diet: #cf4d9c;
   --diet-soft: #fbe6f3;
+  --beauty: #b4571e;
+  --beauty-soft: #fdeee0;
   --radius: 18px;
   --shadow: 0 1px 2px rgba(27, 23, 20, .04), 0 10px 24px -14px rgba(27, 23, 20, .22);
 }
@@ -294,6 +296,7 @@ h1 {
 .badge[data-cat="여행"] { color: var(--travel); background: var(--travel-soft); }
 .badge[data-cat="자취·살림"] { color: var(--living); background: var(--living-soft); }
 .badge[data-cat="다이어트"] { color: var(--diet); background: var(--diet-soft); }
+.badge[data-cat="뷰티"] { color: var(--beauty); background: var(--beauty-soft); }
 
 .platform {
   font-size: 11px;

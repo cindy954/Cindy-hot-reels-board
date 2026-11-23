@@ -150,14 +150,14 @@
     document.getElementById("updated-at").textContent = stamp(payload.generatedAt, true) + " KST";
     document.getElementById("total-count").textContent = payload.reels.length + "개";
 
-    var counts = { "전체": payload.reels.length, "여행": 0, "자취·살림": 0, "다이어트": 0 };
+    var counts = { "전체": payload.reels.length, "여행": 0, "자취·살림": 0, "다이어트": 0, "뷰티": 0 };
     payload.reels.forEach(function (r) { counts[r.category] = (counts[r.category] || 0) + 1; });
     [].forEach.call(document.querySelectorAll(".tab-count"), function (el) {
       el.textContent = counts[el.dataset.count] || 0;
     });
 
     if (notice) {
-      var byCat = ["여행", "자취·살림", "다이어트"].map(function (c) { return c + " " + (counts[c] || 0) + "개"; }).join(" · ");
+      var byCat = ["여행", "자취·살림", "다이어트", "뷰티"].map(function (c) { return c + " " + (counts[c] || 0) + "개"; }).join(" · ");
       var ws = new Date(payload.windowStart), we = new Date(payload.windowEnd);
       var span = (ws.getMonth() + 1) + "." + ws.getDate() + "~" + (we.getMonth() + 1) + "." + we.getDate();
       notice.textContent = "조회수 20만 이상만 담았습니다. 최근 14일(" + span + ") 확인된 항목은 " + byCat + "입니다.";
