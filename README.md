@@ -9,7 +9,7 @@
 
 `data/reels.json`만 고치면 사이트가 그대로 따라갑니다. 코드는 건드릴 필요 없습니다.
 
-1. `reels` 배열에 항목을 더하거나 지웁니다.
+1. `reels` 배열에 항목을 더하거나 지웁니다. 새로 넣은 항목에는 `addedDate`(업데이트 날짜, `YYYY-MM-DD`)를 적고, 계속 남기는 항목은 이전 `addedDate`를 그대로 둡니다. `generatedAt` 날짜와 `addedDate`가 같은 항목이 보드의 **✨ 오늘 NEW** 탭과 카드의 **NEW** 배지로 표시됩니다(`isNew: true`도 같은 효과).
 2. `generatedAt`(보드 기준 시각)과 `verifiedAt`(수치를 마지막으로 확인한 시각)을 현재 시각으로 바꿉니다.
 3. 커밋하고 푸시하면 1분 안에 반영됩니다.
 
@@ -33,7 +33,8 @@
   "durationSec": 20,
   "url": "https://www.youtube.com/shorts/XXXX",
   "ad": false,
-  "point": "수강생에게 보여줄 벤치마킹 포인트 1~2문장"
+  "point": "수강생에게 보여줄 벤치마킹 포인트 1~2문장",
+  "addedDate": "2026-11-26"
 }
 ```
 
@@ -56,7 +57,7 @@
 - **다이어트**: 운동·식단·체중 관리
 - **뷰티**: 화장품 리뷰·추천, 메이크업 튜토리얼, 스킨케어, 헤어 미용, 올리브영/다이소/백화점 화장품. 패션·룩북·드레스코드처럼 옷과 스타일링이 중심인 영상, 화장품 이야기가 곁다리인 썰 중심 영상은 뷰티로 넣지 않습니다.
 
-카테고리 탭은 `index.html`의 `.tab` 버튼과 `app.js`의 `counts`·`byCat` 목록, `styles.css`의 `.badge[data-cat]` 색을 함께 고쳐야 맞습니다.
+카테고리 탭은 `index.html`의 `.tab` 버튼과 `app.js`의 `counts`·`byCat` 목록, `styles.css`의 `.badge[data-cat]` 색을 함께 고쳐야 맞습니다. `전체` 다음의 `✨ 오늘 NEW` 탭은 카테고리가 아니라 오늘 추가분 필터(`data-cat="NEW"`)라서 이 목록에 넣지 않습니다.
 
 ## 로컬에서 보기
 
