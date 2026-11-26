@@ -10,7 +10,7 @@
   <meta property="og:description" content="수강생 전용 데일리 릴스 레퍼런스 · 최근 14일 · 조회수 20만 이상" />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-  <link rel="stylesheet" href="styles.css?v=20261123a" />
+  <link rel="stylesheet" href="styles.css?v=20261126a" />
 </head>
 <body>
   <header class="site-header">
@@ -43,6 +43,7 @@
     <section class="controls" aria-label="보드 필터">
       <div class="tabs" id="tabs" role="tablist" aria-label="카테고리">
         <button class="tab is-active" role="tab" aria-selected="true" data-cat="전체">전체 <span class="tab-count" data-count="전체">0</span></button>
+        <button class="tab tab-new" role="tab" aria-selected="false" data-cat="NEW">✨ 오늘 NEW <span class="tab-count" data-count="NEW">0</span></button>
         <button class="tab" role="tab" aria-selected="false" data-cat="여행">여행 <span class="tab-count" data-count="여행">0</span></button>
         <button class="tab" role="tab" aria-selected="false" data-cat="자취·살림">자취·살림 <span class="tab-count" data-count="자취·살림">0</span></button>
         <button class="tab" role="tab" aria-selected="false" data-cat="다이어트">다이어트 <span class="tab-count" data-count="다이어트">0</span></button>
@@ -74,6 +75,7 @@
         <summary>이 보드는 이렇게 만들었어요</summary>
         <div class="notes-body">
           <p>최근 14일(2026.11.12~11.26 KST) 안에 게시된 한국어 숏폼 가운데 <strong>조회수 20만 이상</strong>만 담았습니다. 그 아래 항목은 숫자를 채우려고 넣지 않았습니다. 수록된 40개는 모두 11.26에 원본에서 조회수를 다시 확인한 값입니다.</p>
+          <p><strong>✨ 오늘 NEW</strong> 탭은 오늘 업데이트에서 새로 추가된 항목만 모아 보여줍니다. 오늘 새로 들어온 카드에는 다른 탭에서도 <strong>NEW</strong> 배지가 붙어요.</p>
           <p>인스타그램 릴스 조회수는 인스타그램 원본(게시물·임베드)에서 확인한 재생 수를 씁니다. 좋아요·댓글·게시 시각도 인스타그램 원본에서 직접 읽었고, 좋아요를 숨긴 계정은 '비공개'로 표시합니다. 후보를 추리는 데 쓰는 트래커 하입나우(hypenow) 집계는 11.22 게시분까지만 갱신되고 원본보다 크게 잡히는 경향이 있어(예: 트래커 19.1만 vs 원본 6.8만) 후보 단계에서만 쓰고, 카드 숫자는 원본 재생 수로 통일했습니다.</p>
           <p>유튜브 쇼츠는 영상 페이지에서 조회수와 게시 시각을 직접 확인했습니다.</p>
           <p>이번 14일 구간에서 확인된 20만 뷰 이상 한국어 항목은 여행 12개 · 자취·살림 13개 · 다이어트 5개 · 뷰티 10개, 모두 40개입니다. 다이어트와 자취·여행은 이 구간에 원본 조회수 20만을 넘긴 인스타 릴스가 적어 유튜브 쇼츠로 보완했고, 숫자를 채우려고 기준 아래 항목을 넣지는 않았습니다. 11.11 게시로 기간이 지난 6건은 빼고, 11.19~11.23에 올라온 유튜브 쇼츠 6건과 11.20 인스타 릴스 1건을 새로 넣었습니다.</p>
@@ -94,6 +96,7 @@
   <template id="card-template">
     <article class="card">
       <div class="card-top">
+        <span class="new-badge" hidden>NEW</span>
         <span class="badge"></span>
         <span class="platform"></span>
         <span class="ad" hidden>광고·협찬</span>
@@ -110,6 +113,6 @@
     </article>
   </template>
 
-  <script src="app.js?v=20261123a"></script>
+  <script src="app.js?v=20261126a"></script>
 </body>
 </html>

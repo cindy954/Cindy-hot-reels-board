@@ -159,6 +159,32 @@ h1 {
   color: #fff;
 }
 
+/* 오늘 NEW 탭 */
+.tab-new {
+  border-color: #ffd3ca;
+  background: var(--accent-soft);
+  color: #c22b1c;
+}
+
+.tab-new:hover { border-color: var(--accent); }
+
+.tab-new .tab-count {
+  background: #fff;
+  color: var(--accent);
+}
+
+.tab-new.is-active {
+  background: linear-gradient(135deg, #ff6a44 0%, var(--accent) 58%, #f23a6b 100%);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 7px 16px -9px rgba(255, 77, 61, .9);
+}
+
+.tab-new.is-active .tab-count {
+  background: rgba(255, 255, 255, .26);
+  color: #fff;
+}
+
 .controls-row {
   display: flex;
   gap: 10px;
@@ -278,6 +304,11 @@ h1 {
   }
 }
 
+.card.is-new {
+  border-color: #f8d6cd;
+  box-shadow: 0 1px 2px rgba(255, 77, 61, .07), 0 12px 26px -16px rgba(255, 77, 61, .45);
+}
+
 .card-top {
   display: flex;
   align-items: center;
@@ -297,6 +328,18 @@ h1 {
 .badge[data-cat="자취·살림"] { color: var(--living); background: var(--living-soft); }
 .badge[data-cat="다이어트"] { color: var(--diet); background: var(--diet-soft); }
 .badge[data-cat="뷰티"] { color: var(--beauty); background: var(--beauty-soft); }
+
+.new-badge {
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  line-height: 1.35;
+  box-shadow: 0 2px 6px -2px rgba(255, 77, 61, .75);
+}
 
 .platform {
   font-size: 11px;

@@ -72,8 +72,33 @@
     return item.creator || "";
   }
 
+  // 오늘 NEW: 보드의 generatedAt 날짜와 addedDate가 같은 항목(또는 isNew: true)
+  function boardDateKey() {
+    if (!data) return "";
+    var src = data.generatedAt || data.verifiedAt || data.windowEnd || "";
+    return String(src).slice(0, 10);
+  }
+
+  function isNewItem(item) {
+    if (!item) return false;
+    if (item.isNew === true) return true;
+    var key = boardDateKey();
+    return !!key && !!item.addedDate && String(item.addedDate).slice(0, 10) === key;
+  }
+
+  function newDateLabel() {
+    var key = boardDateKey();
+    if (!key) return "오늘";
+    var p = key.split("-");
+    return p.length === 3 ? (+p[1]) + "." + (+p[2]) : key;
+  }
+
   function matches(item) {
-    if (state.category !== "전체" && item.category !== state.category) return false;
+    if (state.category === "NEW") {
+      if (!isNewItem(item)) return false;
+    } else if (state.category !== "전체" && item.category !== state.category) {
+      return false;
+    }
     if (!state.query) return true;
     var q = state.query.toLowerCase();
     var hay = [item.title, item.creator, item.handle, item.point, item.category].join(" ").toLowerCase();
@@ -97,6 +122,11 @@
 
     items.forEach(function (item) {
       var node = tpl.content.cloneNode(true);
+      var newBadge = node.querySelector(".new-badge");
+      if (newBadge && isNewItem(item)) {
+        newBadge.hidden = false;
+        node.querySelector(".card").classList.add("is-new");
+      }
       var badge = node.querySelector(".badge");
       badge.textContent = item.category;
       badge.setAttribute("data-cat", item.category);
@@ -139,10 +169,15 @@
     });
 
     empty.hidden = items.length !== 0;
+    empty.textContent = state.category === "NEW"
+      ? "오늘 새로 추가된 항목이 아직 없어요. 다음 업데이트 뒤에 다시 확인해 주세요."
+      : "조건에 맞는 릴스가 없어요. 다른 키워드로 찾아보세요.";
     resultLine.textContent = state.query
       ? "'" + state.query + "' 검색 결과 " + items.length + "개"
-      : (state.category === "전체" ? "전체 " : state.category + " ") + items.length + "개 · " +
-        (state.sort === "views" ? "조회수 높은 순" : "최근 게시 순");
+      : state.category === "NEW"
+        ? "오늘 NEW " + items.length + "개 · " + newDateLabel() + " 업데이트에서 새로 추가"
+        : (state.category === "전체" ? "전체 " : state.category + " ") + items.length + "개 · " +
+          (state.sort === "views" ? "조회수 높은 순" : "최근 게시 순");
   }
 
   function setData(payload) {
@@ -150,8 +185,11 @@
     document.getElementById("updated-at").textContent = stamp(payload.generatedAt, true) + " KST";
     document.getElementById("total-count").textContent = payload.reels.length + "개";
 
-    var counts = { "전체": payload.reels.length, "여행": 0, "자취·살림": 0, "다이어트": 0, "뷰티": 0 };
-    payload.reels.forEach(function (r) { counts[r.category] = (counts[r.category] || 0) + 1; });
+    var counts = { "전체": payload.reels.length, "NEW": 0, "여행": 0, "자취·살림": 0, "다이어트": 0, "뷰티": 0 };
+    payload.reels.forEach(function (r) {
+      counts[r.category] = (counts[r.category] || 0) + 1;
+      if (isNewItem(r)) counts["NEW"] += 1;
+    });
     [].forEach.call(document.querySelectorAll(".tab-count"), function (el) {
       el.textContent = counts[el.dataset.count] || 0;
     });
